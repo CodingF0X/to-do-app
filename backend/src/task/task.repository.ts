@@ -19,9 +19,11 @@ export class TaskRepository extends Repository<Task> {
     return task;
   }
 
-  async findAll(): Promise<Task[]> {
-    const tasks = await this.find();
+  async findAll(user: User): Promise<Task[]> {
+    const query = await this.createQueryBuilder('task');
+    query.where({ user });
 
+    const tasks = await query.getMany();
     return tasks;
   }
 
