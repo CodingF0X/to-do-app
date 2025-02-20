@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './DTO/auth-credentials.dto';
 import { User } from './user.entity';
+import { GetUser } from './create-user.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +27,8 @@ export class AuthController {
   }
 
   @Post('mmea')
-  mmea(@Req() req) {
-    console.log(req);
+  @UseGuards(AuthGuard())
+  mmea(@GetUser() user: User) {
+    console.log(user);
   }
 }
