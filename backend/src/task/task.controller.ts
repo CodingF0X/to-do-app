@@ -13,6 +13,8 @@ import { CreateTaskDto } from './DTO/create-task.dto';
 import { Task } from './task.entity';
 import { UpdateTaskDto } from './DTO/update-task.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/create-user.decorator';
+import { User } from 'src/auth/user.entity';
 
 @Controller('task')
 @UseGuards(AuthGuard())
@@ -20,8 +22,11 @@ export class TaskController {
   constructor(private taskService: TaskService) {}
 
   @Post()
-  async createTask(@Body() body: CreateTaskDto): Promise<Task> {
-    return this.taskService.CreateTask(body);
+  async createTask(
+    @Body() body: CreateTaskDto,
+    @GetUser() user: User,
+  ): Promise<Task> {
+    return this.taskService.CreateTask(body, user);
   }
 
   @Get()
