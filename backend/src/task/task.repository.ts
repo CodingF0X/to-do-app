@@ -19,7 +19,7 @@ export class TaskRepository extends Repository<Task> {
     return task;
   }
 
-  async getTasks(): Promise<Task[]> {
+  async findAll(): Promise<Task[]> {
     const tasks = await this.find();
 
     return tasks;
@@ -35,10 +35,7 @@ export class TaskRepository extends Repository<Task> {
   }
 
   async updateTask(id: string, body: UpdateTaskDto): Promise<Task> {
-    const task = await this.findOneBy({ id });
-    if (!task) {
-      throw new NotFoundException(`Task with ID: ${id} not found.`);
-    }
+    const task = await this.findTaskById(id);
     const updatedTask = await this.save({
       ...task,
       ...body,
@@ -48,11 +45,8 @@ export class TaskRepository extends Repository<Task> {
   }
 
   async deleteTask(id: string): Promise<string> {
-    const task = await this.findOneBy({ id });
-    if (!task) {
-      throw new NotFoundException(`Task with ID: ${id} not found.`);
-    }
-    await this.delete(id);
+    const task = await this.findTaskById(id);
+    await this.delete(task.id);
 
     return `Task with ID: ${id} deleted successfully.`;
   }
