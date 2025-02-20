@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { CreateUserDto } from './DTO/create-user.dto';
+import { AuthCredentialsDto } from './DTO/auth-credentials.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -14,7 +14,7 @@ export class UserRepository {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
-  async createUser(body: CreateUserDto): Promise<User> {
+  async createUser(body: AuthCredentialsDto): Promise<User> {
     return await this.userRepository.save(body);
   }
 
