@@ -3,13 +3,14 @@ import { TaskRepository } from './task.repository';
 import { CreateTaskDto } from './DTO/create-task.dto';
 import { Task } from './task.entity';
 import { UpdateTaskDto } from './DTO/update-task.dto';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class TaskService {
   constructor(private taskRepository: TaskRepository) {}
 
-  async CreateTask(body: CreateTaskDto): Promise<Task> {
-    return this.taskRepository.createTask(body);
+  async CreateTask(body: CreateTaskDto, user: User): Promise<Task> {
+    return this.taskRepository.createTask(body, user);
   }
 
   async getTasks(): Promise<Task[]> {
