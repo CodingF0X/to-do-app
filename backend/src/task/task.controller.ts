@@ -30,8 +30,8 @@ export class TaskController {
   }
 
   @Get()
-  async getTasks(): Promise<Task[]> {
-    return this.taskService.getTasks();
+  async getTasks(@GetUser() user: User): Promise<Task[]> {
+    return this.taskService.getTasks(user);
   }
 
   @Get(':id')
