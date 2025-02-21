@@ -35,20 +35,27 @@ export class TaskController {
   }
 
   @Get(':id')
-  async getTaskById(@Param('id') id: string): Promise<Task> {
-    return this.taskService.getTaskById(id);
+  async getTaskById(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ): Promise<Task> {
+    return this.taskService.getTaskById(id, user);
   }
 
   @Patch(':id')
   async updateTask(
     @Param('id') id: string,
     @Body() body: UpdateTaskDto,
+    @GetUser() user: User,
   ): Promise<Task> {
-    return this.taskService.updateTask(id, body);
+    return this.taskService.updateTask(id, body, user);
   }
 
   @Delete(':id')
-  async deleteTask(@Param('id') id: string): Promise<string> {
-    return this.taskService.deleteTask(id);
+  async deleteTask(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ): Promise<string> {
+    return this.taskService.deleteTask(id, user);
   }
 }

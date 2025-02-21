@@ -27,17 +27,21 @@ export class TaskRepository extends Repository<Task> {
     return tasks;
   }
 
-  async findTaskById(id: string): Promise<Task> {
-    const task = await this.findOneBy({ id });
+  async findTaskById(id: string, user: User): Promise<Task> {
+    const task = await this.findOne({ where: { id, user } });
     if (!task) {
-      throw new NotFoundException(`Task with ID: ${id} not found.`);
+      throw new NotFoundException({
+        message: 'Task not found',
+        error: '404 error',
+        statusCode: 404,
+      });
     }
 
     return task;
   }
 
-  async updateTask(id: string, body: UpdateTaskDto): Promise<Task> {
-    const task = await this.findTaskById(id);
+  async updateTask(id: string, body: UpdateTaskDto, user: User): Promise<Task> {
+    const task = await this.findTaskById(id, user);
     const updatedTask = await this.save({
       ...task,
       ...body,
@@ -46,8 +50,8 @@ export class TaskRepository extends Repository<Task> {
     return updatedTask;
   }
 
-  async deleteTask(id: string): Promise<string> {
-    const task = await this.findTaskById(id);
+  async deleteTask(id: string, user: User): Promise<string> {
+    const task = await this.findTaskById(id, user);
     await this.delete(task.id);
 
     return `Task with ID: ${id} deleted successfully.`;
