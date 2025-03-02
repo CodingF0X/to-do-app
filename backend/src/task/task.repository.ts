@@ -4,7 +4,7 @@ import { Task } from './task.entity';
 import { DataSource, Repository } from 'typeorm';
 import { TaskStatus } from './task-status.enum';
 import { UpdateTaskDto } from './DTO/update-task.dto';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class TaskRepository extends Repository<Task> {
