@@ -15,7 +15,8 @@ export class TaskService {
 
   async getTasks(user: User): Promise<Task[]> {
     const tasks = await this.taskRepository.findAll(user);
-    if (!tasks) throw new NotFoundException('No tasks found');
+    if (!tasks || tasks.length == 0)
+      throw new NotFoundException('No tasks found');
     return tasks;
   }
 
