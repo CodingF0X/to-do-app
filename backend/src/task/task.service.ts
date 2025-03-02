@@ -3,7 +3,7 @@ import { TaskRepository } from './task.repository';
 import { CreateTaskDto } from './DTO/create-task.dto';
 import { Task } from './task.entity';
 import { UpdateTaskDto } from './DTO/update-task.dto';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class TaskService {
