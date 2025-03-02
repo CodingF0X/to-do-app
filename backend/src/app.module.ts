@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { typeOrmConfig } from './config/typeorm.config';
 import databasseConfig from './config/databasse.config';
+import { validationSchema } from './config/validation.schema';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -12,6 +13,7 @@ import databasseConfig from './config/databasse.config';
       isGlobal: true,
       ignoreEnvFile: false,
       load: [databasseConfig],
+      validationSchema: validationSchema,
     }),
     TaskModule,
     TypeOrmModule.forRootAsync({
