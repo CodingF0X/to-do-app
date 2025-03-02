@@ -21,7 +21,15 @@ export class TaskService {
   }
 
   async getTaskById(id: string, user: User): Promise<Task> {
-    return this.taskRepository.findTaskById(id, user);
+    const task = await this.taskRepository.findTaskById(id, user);
+    if (!task) {
+      throw new NotFoundException({
+        message: 'Task not found',
+        error: '404 error',
+        statusCode: 404,
+      });
+    }
+    return task;
   }
 
   async updateTask(id: string, body: UpdateTaskDto, user: User): Promise<Task> {

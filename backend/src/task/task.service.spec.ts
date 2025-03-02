@@ -70,4 +70,24 @@ describe('Testing Task Service', () => {
       );
     });
   });
+
+  describe('GET task by ID', () => {
+    it('Should find task by ID', async () => {
+      expect(taskRepository.findTaskById).not.toHaveBeenCalled();
+      jest
+        .spyOn(taskRepository, 'findTaskById')
+        .mockResolvedValue(mockTasks[0]);
+
+      const res = await taskService.getTaskById('1', mockUser);
+      expect(taskRepository.findTaskById).toHaveBeenCalled();
+      expect(res).toEqual(mockTasks[0]);
+    });
+
+    it('Should throw NotFoundException if the task does not exist', async () => {
+      jest.spyOn(taskRepository, 'findTaskById').mockResolvedValue(null);
+      const res = taskService.getTaskById('10', mockUser);
+      expect(taskRepository.findTaskById).toHaveBeenCalled();
+      await expect(res).rejects.toThrow(NotFoundException);
+    });
+  });
 });

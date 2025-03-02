@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './DTO/create-task.dto';
 import { Task } from './task.entity';
 import { DataSource, Repository } from 'typeorm';
@@ -29,14 +29,6 @@ export class TaskRepository extends Repository<Task> {
 
   async findTaskById(id: string, user: User): Promise<Task> {
     const task = await this.findOne({ where: { id, user } });
-    if (!task) {
-      throw new NotFoundException({
-        message: 'Task not found',
-        error: '404 error',
-        statusCode: 404,
-      });
-    }
-
     return task;
   }
 
